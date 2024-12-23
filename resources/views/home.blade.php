@@ -294,7 +294,7 @@
                 @foreach ($products as $product)
                     <div class="col-md-3">
                         <div class="menu-entry">
-                            <a href="#" class="img" style="background-image: url({{ asset('assets/images/'.$product->image.'' ) }});"></a>
+                            <a href="{{ route('single.product', $product) }}" class="img" style="background-image: url({{ asset('assets/images/'.$product->image.'' ) }});"></a>
                             <div class="text text-center pt-4">
                                 <h3><a href="{{ route('single.product', $product) }}">{{ $product->name }}</a></h3>
                                 <p>{{ $product->description }}</p>

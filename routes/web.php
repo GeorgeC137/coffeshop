@@ -14,3 +14,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // products
 Route::get('products/product-single/{id}', [ProductController::class, 'singleProduct'])->name('single.product');
+Route::post('products/cart/{id}', [ProductController::class, 'addToCart'])->name('add.cart');
+Route::get('products/cart', [ProductController::class, 'cart'])->name('cart');
+Route::get('products/cart-delete/{id}', [ProductController::class, 'deleteFromCart'])->name('delete.cart');
