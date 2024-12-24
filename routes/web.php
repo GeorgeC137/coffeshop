@@ -17,3 +17,8 @@ Route::get('products/product-single/{id}', [ProductController::class, 'singlePro
 Route::post('products/cart/{id}', [ProductController::class, 'addToCart'])->name('add.cart');
 Route::get('products/cart', [ProductController::class, 'cart'])->name('cart');
 Route::get('products/cart-delete/{id}', [ProductController::class, 'deleteFromCart'])->name('delete.cart');
+
+// checkout
+Route::post('products/prepare-checkout', [ProductController::class, 'prepareCheckout'])->name('prepare.checkout');
+Route::get('products/checkout', [ProductController::class, 'checkout'])->name('checkout');
+Route::post('products/checkout', [ProductController::class, 'processCheckout'])->name('process.checkout');

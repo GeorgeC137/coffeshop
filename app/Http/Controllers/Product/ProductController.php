@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Product;
 use App\Models\Product\Cart;
 use Illuminate\Http\Request;
 use App\Models\Product\Product;
+use App\Models\Product\Order;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -65,5 +67,30 @@ class ProductController extends Controller
         if ($deletedCartProduct) {
             return Redirect::route('cart')->with('delete', 'Product deleted from cart successfully');
         }
+    }
+
+    public function prepareCheckout(Request $request)
+    {
+        $value = $request->price;
+
+        $price = Session::put('price', $value);
+
+        $newPrice = Session::get($price);
+
+        if ($newPrice > 0) {
+            return Redirect::route('checkout');
+        }
+    }
+
+    public function checkout()
+    {
+        return view('products.checkout');
+    }
+
+    public function processCheckout(Request $request)
+    {
+        $checkout = Order::create($request->all());
+
+        echo 'Welcome to payment by Paypal';
     }
 }
