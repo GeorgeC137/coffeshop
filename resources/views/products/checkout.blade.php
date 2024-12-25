@@ -10,7 +10,7 @@
 
                     <div class="col-md-7 col-sm-12 text-center ftco-animate">
                         <h1 class="mb-3 mt-5 bread">Checkout</h1>
-                        <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Checkout</span>
+                        <p class="breadcrumbs"><span class="mr-2"><a href="{{ route('home') }}">Home</a></span> <span>Checkout</span>
                         </p>
                     </div>
 
@@ -91,12 +91,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input name="price" value="{{ Session::get('price') }}" type="text" class="form-control" placeholder="">
+                                    <input name="price" value="{{ Session::get('price') }}" type="hidden" class="form-control" placeholder="">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input name="user_id" value="{{ Auth::user()->id }}" type="text" class="form-control" placeholder="">
+                                    <input name="user_id" value="{{ Auth::user()->id }}" type="hidden" class="form-control" placeholder="">
                                 </div>
                             </div>
                             <div class="w-100"></div>

@@ -20,5 +20,7 @@ Route::get('products/cart-delete/{id}', [ProductController::class, 'deleteFromCa
 
 // checkout
 Route::post('products/prepare-checkout', [ProductController::class, 'prepareCheckout'])->name('prepare.checkout');
-Route::get('products/checkout', [ProductController::class, 'checkout'])->name('checkout');
-Route::post('products/checkout', [ProductController::class, 'processCheckout'])->name('process.checkout');
+Route::get('products/checkout', [ProductController::class, 'checkout'])->name('checkout')->middleware('check.for.price');
+Route::post('products/checkout', [ProductController::class, 'processCheckout'])->name('process.checkout')->middleware('check.for.price');
+Route::get('products/pay', [ProductController::class, 'payWithPaypal'])->name('products.pay')->middleware('check.for.price');
+Route::get('products/success', [ProductController::class, 'success'])->name('products.pay.success')->middleware('check.for.price');
