@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Product;
 
 use App\Models\Product\Cart;
 use Illuminate\Http\Request;
-use App\Models\Product\Product;
 use App\Models\Product\Order;
+use App\Models\Product\Booking;
+use App\Models\Product\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 
 class ProductController extends Controller
 {
@@ -113,5 +114,37 @@ class ProductController extends Controller
             Session::forget('price');
             return view('products.success');
         }
+    }
+
+    public function bookTable(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|max:50',
+            'last_name' => 'required|max:50',
+            'message' => 'required',
+            'time' => 'required',
+            'date' => 'required',
+            'user_id' => 'required',
+            'phone' => 'required',
+        ]);
+
+        if ($request->date > date('n/j/Y')) {
+            $bookTable = Booking::create($request->all());
+
+            if ($bookTable) {
+                return Redirect::route('home')->with('booking', 'You have booked a table successfully');
+            }
+        } else {
+            return Redirect::route('home')->with('date', 'Invalid date, please choose a future date');
+        }
+    }
+
+    public function menu ()
+    {
+        $desserts = Product::select()->where('type', 'desserts')->orderBy('id', 'desc')->take(4)->get();
+
+        $drinks = Product::select()->where('type', 'drinks')->orderBy('id', 'desc')->take(4)->get();
+
+        return view('products.menu', compact('desserts', 'drinks'));
     }
 }
