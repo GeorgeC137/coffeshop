@@ -14,6 +14,7 @@ class Booking extends Model
     protected $fillable = [
         'message',
         'phone',
+        'status',
         'time',
         'last_name',
         'first_name',

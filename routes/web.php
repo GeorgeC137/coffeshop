@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Users\UsersController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,3 +33,7 @@ Route::post('products/bookings', [ProductController::class, 'bookTable'])->name(
 
 // Menu
 Route::get('products/menu', [ProductController::class, 'menu'])->name('products.menu');
+
+// Users pages
+Route::get('users/orders', [UsersController::class, 'displayOrders'])->name('users.orders');
+Route::get('users/bookings', [UsersController::class, 'displayBookings'])->name('users.bookings');
