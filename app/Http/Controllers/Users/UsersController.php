@@ -33,10 +33,9 @@ class UsersController extends Controller
 
     public function postReview(Request $request)
     {
-        // $request->validate([
-        //     'name' => 'required',
-        //     'review' => 'required',
-        // ]);
+        $request->validate([
+            'review' => 'required',
+        ]);
 
         $review = Review::create([
             'name' => Auth::user()->name,

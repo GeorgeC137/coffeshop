@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use Illuminate\Http\Request;
-use App\Models\Product\Product;
 use App\Models\Product\Review;
+use App\Models\Product\Product;
+use Illuminate\Support\Facades\Redirect;
 
 class HomeController extends Controller
 {
@@ -45,5 +47,26 @@ class HomeController extends Controller
     public function services()
     {
         return view('pages.services');
+    }
+
+    public function submitContact(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'subject' => 'required',
+            'message' => 'required',
+        ]);
+
+        $contacts = Contact::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'message' => $request->message,
+        ]);
+
+        if ($contacts) {
+            return Redirect::route('contact')->with('contact', 'Contact submitted successfully');
+        }
     }
 }
