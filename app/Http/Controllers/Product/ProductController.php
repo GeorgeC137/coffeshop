@@ -23,12 +23,16 @@ class ProductController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
-        // Checking products in cart(cartItems)
-        $cartItems = Cart::where('prod_id', $id)
-            ->where('user_id', Auth::user()->id)
-            ->count();
+        if (isset(Auth::user()->id)) {
+            // Checking products in cart(cartItems)
+            $cartItems = Cart::where('prod_id', $id)
+                ->where('user_id', Auth::user()->id)
+                ->count();
 
-        return view('products.product-single', compact('product', 'relatedProducts', 'cartItems'));
+            return view('products.product-single', compact('product', 'relatedProducts', 'cartItems'));
+        } else {
+            return view('products.product-single', compact('product', 'relatedProducts'));
+        }
     }
 
     public function addToCart(Request $request, $id)
