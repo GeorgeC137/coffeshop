@@ -137,8 +137,10 @@
                                     @endif
                                 </div>
                             </div>
-                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"
+                            @if(Auth::user())
+                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"
                                 class="form-control user_id">
+                            @endif
                             @if ($errors->has('user_id'))
                                 <span class="error" style="color:red">{{ $errors->first('user_id') }}</span>
                             @endif

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckForAuth;
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\CheckForPriceMiddleware;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -14,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'check.for.price' => CheckForPriceMiddleware::class,
+            'check.for.auth' => CheckForAuth::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Users\UsersController;
+use App\Http\Controllers\Admins\AdminsController;
+use App\Http\Controllers\Product\ProductController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -16,7 +17,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('in
 Route::get('/services', [App\Http\Controllers\HomeController::class, 'services'])->name('services');
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
-Route::post('/contact', [App\Http\Controllers\HomeController::class, 'submitContact'])->name('post.contact');
+Route::post('/contact', [App\Http\Controllers\HomeController::class, 'submitContact'])->name('post.contact')->middleware('auth');
 
 Route::group(['prefix' => 'products'], function() {
     // products
@@ -48,4 +49,28 @@ Route::group(['prefix' => 'users'], function() {
     Route::get('/reviews', [UsersController::class, 'writeReview'])->name('reviews')->middleware('auth:web');
     Route::post('/reviews', [UsersController::class, 'postReview'])->name('post.review')->middleware('auth:web');
 });
+
+Route::get('/admin/login', [AdminsController::class, 'loginPage'])->name('view.login')->middleware('check.for.auth');
+Route::post('/admin/login', [AdminsController::class, 'loginAdmin'])->name('login.admin');
+Route::post('/admin/logout', [AdminsController::class, 'logoutAdmin'])->name('logout.admin')->middleware('auth:admin');
+
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
+    Route::get('/index', [AdminsController::class, 'index'])->name('admins.dashboard');
+    Route::get('/all-admins', [AdminsController::class, 'displayAdmins'])->name('all.admins');
+    Route::get('/create-admin', [AdminsController::class, 'createAdmin'])->name('create.admin');
+    Route::post('/create-admin', [AdminsController::class, 'storeAdmin'])->name('store.admin');
+});
+
+// tests
+Route::get('/test-guard', function () {
+    if (Auth::guard('admin')->check()) {
+        return 'Admin is logged in!';
+    }
+    return 'Admin is not logged in!';
+});
+
+Route::middleware('auth:admin')->get('/admin-test', function () {
+    return 'Admin middleware is working!';
+});
+
 
