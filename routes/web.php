@@ -61,6 +61,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
     Route::post('/create-admin', [AdminsController::class, 'storeAdmin'])->name('store.admin');
 });
 
+// orders
+Route::get('/all-orders', [AdminsController::class, 'displayOrders'])->name('all.orders');
+Route::get('/edit-order/{id}', [AdminsController::class, 'displayOrder'])->name('edit.order');
+Route::post('/edit-order/{id}', [AdminsController::class, 'updateOrder'])->name('update.order');
+Route::get('/delete-order/{id}', [AdminsController::class, 'deleteOrder'])->name('delete.order');
+
 // tests
 Route::get('/test-guard', function () {
     if (Auth::guard('admin')->check()) {

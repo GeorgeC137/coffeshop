@@ -21,7 +21,7 @@ class AdminsController extends Controller
     public function loginAdmin(Request $request)
     {
         $request->validate([
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 
@@ -66,8 +66,8 @@ class AdminsController extends Controller
     public function storeAdmin(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
+            'name' => 'required|max:40',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 
@@ -79,6 +79,41 @@ class AdminsController extends Controller
 
         if ($admin) {
             return Redirect::route('all.admins')->with('success', 'Admin created successfully');
+        }
+    }
+
+    public function displayOrders()
+    {
+        $allOrders = Order::select()->orderBy('id', 'desc')->get();
+
+        return view('admins.all-orders', compact('allOrders'));
+    }
+    public function displayOrder($id)
+    {
+        $order = Order::find($id);
+
+        return view('admins.edit-order', compact('order'));
+    }
+
+    public function updateOrder(Request $request, $id)
+    {
+        $order = Order::find($id);
+
+        $order->update($request->all());
+
+        if ($order) {
+            return Redirect::route('all.orders')->with('updated', 'Order status updated successfully');
+        }
+    }
+
+    public function deleteOrder($id)
+    {
+        $order = Order::find($id);
+
+        $order->delete();
+
+        if ($order) {
+            return Redirect::route('all.orders')->with('deleted', 'Order deleted successfully');
         }
     }
 }
