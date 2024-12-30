@@ -67,6 +67,12 @@ Route::get('/edit-order/{id}', [AdminsController::class, 'displayOrder'])->name(
 Route::post('/edit-order/{id}', [AdminsController::class, 'updateOrder'])->name('update.order');
 Route::get('/delete-order/{id}', [AdminsController::class, 'deleteOrder'])->name('delete.order');
 
+// products
+Route::get('/all-products', [AdminsController::class, 'displayProducts'])->name('all.products');
+Route::get('/create-product', [AdminsController::class, 'createProduct'])->name('create.product');
+Route::post('/create-product', [AdminsController::class, 'storeProduct'])->name('store.product');
+Route::get('/delete-product/{id}', [AdminsController::class, 'deleteProduct'])->name('delete.product');
+
 // tests
 Route::get('/test-guard', function () {
     if (Auth::guard('admin')->check()) {

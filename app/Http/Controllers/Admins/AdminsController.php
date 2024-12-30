@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admins;
 
+use App\Models\Admin\Admin;
 use Illuminate\Http\Request;
+use App\Models\Product\Order;
+use App\Models\Product\Booking;
 use App\Models\Product\Product;
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Admin;
-use App\Models\Product\Booking;
-use App\Models\Product\Order;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 
 class AdminsController extends Controller
@@ -32,7 +33,7 @@ class AdminsController extends Controller
             return redirect()->route('admins.dashboard');
         }
 
-        return redirect()->back()->with(['error' => 'error logging in']);
+        return redirect()->back()->with(['error' => 'Error logging in. Invalid credentials']);
     }
 
     public function index()
@@ -114,6 +115,61 @@ class AdminsController extends Controller
 
         if ($order) {
             return Redirect::route('all.orders')->with('deleted', 'Order deleted successfully');
+        }
+    }
+
+    public function displayProducts()
+    {
+        $products = Product::select()->orderBy('id', 'desc')->get();
+
+        return view('admins.all-products', compact('products'));
+    }
+
+    public function createProduct()
+    {
+        return view('admins.create-product');
+    }
+
+    public function storeProduct(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|max:40',
+            'price' => 'required',
+            'description' => 'required',
+            'image' => 'required|image',
+        ]);
+
+        $destinationPath = 'assets/images/';
+        $myimage = $request->image->getClientOriginalName();
+        $request->image->move(public_path($destinationPath), $myimage);
+
+        $product = Product::create([
+            'name' => $request->name,
+            'type' => $request->type,
+            'image' => $myimage,
+            'price' => $request->price,
+            'description' => $request->description,
+        ]);
+
+        if ($product) {
+            return Redirect::route('all.products')->with('success', 'Product created successfully');
+        }
+    }
+
+    public function deleteProduct($id)
+    {
+        $product = Product::find($id);
+
+        if(File::exists(public_path('assets/images/' . $product->image))){
+            File::delete(public_path('assets/images/' . $product->image));
+        }else{
+            //dd('File does not exists.');
+        }
+
+        $product->delete();
+
+        if ($product) {
+            return Redirect::route('all.products')->with('deleted', 'Product deleted successfully');
         }
     }
 }

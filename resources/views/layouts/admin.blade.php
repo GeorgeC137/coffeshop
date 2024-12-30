@@ -38,7 +38,7 @@
                                     style="margin-left: 20px;">Orders</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../products-admins/show-products.html"
+                                <a class="nav-link" href="{{ route('all.products') }}"
                                     style="margin-left: 20px;">Products</a>
                             </li>
                             <li class="nav-item">
