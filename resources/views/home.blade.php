@@ -12,7 +12,8 @@
                         <h1 class="mb-4">The Best Coffee Testing Experience</h1>
                         <p class="mb-4 mb-md-5">A small river named Duden flows by their place and supplies it with the
                             necessary regelialia.</p>
-                        <p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a> <a href="#"
+                        <p><a href="{{ route('products.menu') }}" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a>
+                            <a href="{{ route('products.menu') }}"
                                 class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
                     </div>
 
@@ -30,7 +31,8 @@
                         <h1 class="mb-4">Amazing Taste &amp; Beautiful Place</h1>
                         <p class="mb-4 mb-md-5">A small river named Duden flows by their place and supplies it with the
                             necessary regelialia.</p>
-                        <p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a> <a href="#"
+                        <p><a href="{{ route('products.menu') }}" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a>
+                            <a href="{{ route('products.menu') }}"
                                 class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
                     </div>
 
@@ -48,7 +50,8 @@
                         <h1 class="mb-4">Creamy Hot and Ready to Serve</h1>
                         <p class="mb-4 mb-md-5">A small river named Duden flows by their place and supplies it with the
                             necessary regelialia.</p>
-                        <p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a> <a href="#"
+                        <p><a href="{{ route('products.menu') }}" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a>
+                            <a href="{{ route('products.menu') }}"
                                 class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
                     </div>
 
@@ -104,13 +107,13 @@
                         @csrf
                         <div class="d-md-flex">
                             <div class="form-group">
-                                <input type="text" name="first_name" class="form-control" placeholder="First Name">
+                                <input value="{{ old('first_name') }}" type="text" name="first_name" class="form-control" placeholder="First Name">
                                 @if ($errors->has('first_name'))
                                     <span class="error" style="color:red">{{ $errors->first('first_name') }}</span>
                                 @endif
                             </div>
                             <div class="form-group ml-md-4">
-                                <input type="text" name="last_name" class="form-control" placeholder="Last Name">
+                                <input value="{{ old('last_name') }}" type="text" name="last_name" class="form-control" placeholder="Last Name">
                                 @if ($errors->has('last_name'))
                                     <span class="error" style="color:red">{{ $errors->first('last_name') }}</span>
                                 @endif
@@ -120,7 +123,7 @@
                             <div class="form-group">
                                 <div class="input-wrap">
                                     <div class="icon"><span class="ion-md-calendar"></span></div>
-                                    <input type="text" name="date" class="form-control appointment_date"
+                                    <input value="{{ old('date') }}" type="text" name="date" class="form-control appointment_date"
                                         placeholder="Date">
                                     @if ($errors->has('date'))
                                         <span class="error" style="color:red">{{ $errors->first('date') }}</span>
@@ -130,22 +133,22 @@
                             <div class="form-group ml-md-4">
                                 <div class="input-wrap">
                                     <div class="icon"><span class="ion-ios-clock"></span></div>
-                                    <input type="text" name="time" class="form-control appointment_time"
+                                    <input value="{{ old('time') }}" type="text" name="time" class="form-control appointment_time"
                                         placeholder="Time">
                                     @if ($errors->has('time'))
                                         <span class="error" style="color:red">{{ $errors->first('time') }}</span>
                                     @endif
                                 </div>
                             </div>
-                            @if(Auth::user())
+                            @if (Auth::user())
                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"
-                                class="form-control user_id">
-                            @endif
-                            @if ($errors->has('user_id'))
-                                <span class="error" style="color:red">{{ $errors->first('user_id') }}</span>
+                                    class="form-control user_id">
+                                @if ($errors->has('user_id'))
+                                    <span class="error" style="color:red">{{ $errors->first('user_id') }}</span>
+                                @endif
                             @endif
                             <div class="form-group ml-md-4">
-                                <input type="text" name="phone" class="form-control" placeholder="Phone">
+                                <input value="{{ old('phone') }}" type="text" name="phone" class="form-control" placeholder="Phone">
                                 @if ($errors->has('phone'))
                                     <span class="error" style="color:red">{{ $errors->first('phone') }}</span>
                                 @endif
@@ -153,7 +156,9 @@
                         </div>
                         <div class="d-md-flex">
                             <div class="form-group">
-                                <textarea name="message" id="" cols="30" rows="2" class="form-control" placeholder="Message"></textarea>
+                                <textarea name="message" id="" cols="30" rows="2" class="form-control" placeholder="Message">
+                                    {{ old('message') }}
+                                </textarea>
                                 @if ($errors->has('message'))
                                     <span class="error" style="color:red">{{ $errors->first('message') }}</span>
                                 @endif
@@ -241,29 +246,34 @@
                         <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and
                             Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the
                             coast of the Semantics, a large language ocean.</p>
-                        <p><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3">View Full Menu</a></p>
+                        <p><a href="{{ route('products.menu') }}"
+                                class="btn btn-primary btn-outline-primary px-4 py-3">View Full Menu</a></p>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="menu-entry">
-                                <a href="#" class="img" style="background-image: url({{ asset('assets/images/menu-1.jpg') }});"></a>
+                                <a href="#" class="img"
+                                    style="background-image: url({{ asset('assets/images/menu-1.jpg') }});"></a>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="menu-entry mt-lg-4">
-                                <a href="#" class="img" style="background-image: url({{ asset('assets/images/menu-2.jpg') }});"></a>
+                                <a href="#" class="img"
+                                    style="background-image: url({{ asset('assets/images/menu-2.jpg') }});"></a>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="menu-entry">
-                                <a href="#" class="img" style="background-image: url({{ asset('assets/images/menu-3.jpg') }});"></a>
+                                <a href="#" class="img"
+                                    style="background-image: url({{ asset('assets/images/menu-3.jpg') }});"></a>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="menu-entry mt-lg-4">
-                                <a href="#" class="img" style="background-image: url({{ asset('assets/images/menu-4.jpg') }});"></a>
+                                <a href="#" class="img"
+                                    style="background-image: url({{ asset('assets/images/menu-4.jpg') }});"></a>
                             </div>
                         </div>
                     </div>
@@ -272,8 +282,8 @@
         </div>
     </section>
 
-    <section class="ftco-counter ftco-bg-dark img" id="section-counter" style="background-image: url({{ asset('assets/images/bg_2.jpg') }});"
-        data-stellar-background-ratio="0.5">
+    <section class="ftco-counter ftco-bg-dark img" id="section-counter"
+        style="background-image: url({{ asset('assets/images/bg_2.jpg') }});" data-stellar-background-ratio="0.5">
         <div class="overlay"></div>
         <div class="container">
             <div class="row justify-content-center">
@@ -392,8 +402,8 @@
 
 
 
-    <section class="ftco-section img" id="ftco-testimony" style="background-image: url({{ asset('assets/images/bg_1.jpg') }});"
-        data-stellar-background-ratio="0.5">
+    <section class="ftco-section img" id="ftco-testimony"
+        style="background-image: url({{ asset('assets/images/bg_1.jpg') }});" data-stellar-background-ratio="0.5">
         <div class="overlay"></div>
         <div class="container">
             <div class="row justify-content-center mb-5">

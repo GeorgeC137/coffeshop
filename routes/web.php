@@ -42,12 +42,12 @@ Route::group(['prefix' => 'products'], function() {
     Route::get('/menu', [ProductController::class, 'menu'])->name('products.menu');
 });
 
-Route::group(['prefix' => 'users'], function() {
+Route::group(['prefix' => 'users', 'middleware' => 'auth:web'], function() {
     // users pages
-    Route::get('/orders', [UsersController::class, 'displayOrders'])->name('users.orders')->middleware('auth:web');
-    Route::get('/bookings', [UsersController::class, 'displayBookings'])->name('users.bookings')->middleware('auth:web');
-    Route::get('/reviews', [UsersController::class, 'writeReview'])->name('reviews')->middleware('auth:web');
-    Route::post('/reviews', [UsersController::class, 'postReview'])->name('post.review')->middleware('auth:web');
+    Route::get('/orders', [UsersController::class, 'displayOrders'])->name('users.orders');
+    Route::get('/bookings', [UsersController::class, 'displayBookings'])->name('users.bookings');
+    Route::get('/reviews', [UsersController::class, 'writeReview'])->name('reviews');
+    Route::post('/reviews', [UsersController::class, 'postReview'])->name('post.review');
 });
 
 Route::get('/admin/login', [AdminsController::class, 'loginPage'])->name('view.login')->middleware('check.for.auth');
@@ -59,19 +59,26 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
     Route::get('/all-admins', [AdminsController::class, 'displayAdmins'])->name('all.admins');
     Route::get('/create-admin', [AdminsController::class, 'createAdmin'])->name('create.admin');
     Route::post('/create-admin', [AdminsController::class, 'storeAdmin'])->name('store.admin');
-});
+    Route::delete('/delete-admin/{id}', [AdminsController::class, 'deleteAdmin'])->name('delete.admin');
 
-// orders
-Route::get('/all-orders', [AdminsController::class, 'displayOrders'])->name('all.orders');
-Route::get('/edit-order/{id}', [AdminsController::class, 'displayOrder'])->name('edit.order');
-Route::post('/edit-order/{id}', [AdminsController::class, 'updateOrder'])->name('update.order');
-Route::get('/delete-order/{id}', [AdminsController::class, 'deleteOrder'])->name('delete.order');
+    // orders
+    Route::get('/all-orders', [AdminsController::class, 'displayOrders'])->name('all.orders');
+    Route::get('/edit-order/{id}', [AdminsController::class, 'displayOrder'])->name('edit.order');
+    Route::post('/edit-order/{id}', [AdminsController::class, 'updateOrder'])->name('update.order');
+    Route::delete('/delete-order/{id}', [AdminsController::class, 'deleteOrder'])->name('delete.order');
 
-// products
-Route::get('/all-products', [AdminsController::class, 'displayProducts'])->name('all.products');
-Route::get('/create-product', [AdminsController::class, 'createProduct'])->name('create.product');
-Route::post('/create-product', [AdminsController::class, 'storeProduct'])->name('store.product');
-Route::get('/delete-product/{id}', [AdminsController::class, 'deleteProduct'])->name('delete.product');
+    // products
+    Route::get('/all-products', [AdminsController::class, 'displayProducts'])->name('all.products');
+    Route::get('/create-product', [AdminsController::class, 'createProduct'])->name('create.product');
+    Route::post('/create-product', [AdminsController::class, 'storeProduct'])->name('store.product');
+    Route::delete('/delete-product/{id}', [AdminsController::class, 'deleteProduct'])->name('delete.product');
+
+    // bookings
+    Route::get('/all-bookings', [AdminsController::class, 'displayBookings'])->name('all.bookings');
+    Route::get('/edit-booking/{id}', [AdminsController::class, 'displayBooking'])->name('edit.booking');
+    Route::post('/edit-booking/{id}', [AdminsController::class, 'updateBooking'])->name('update.booking');
+    Route::delete('/delete-booking/{id}', [AdminsController::class, 'deleteBooking'])->name('delete.booking');
+    });
 
 // tests
 Route::get('/test-guard', function () {

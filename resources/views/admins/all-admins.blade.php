@@ -8,6 +8,16 @@
                     <p class="alert {{ session('alert-class', 'alert-info') }}">{{ session('success') }}</p>
                 @endif
             </div>
+            <div class="container">
+                @if (session('error'))
+                    <p class="alert {{ session('alert-class', 'alert-info') }}">{{ session('error') }}</p>
+                @endif
+            </div>
+            <div class="container">
+                @if (session('deleted'))
+                    <p class="alert {{ session('alert-class', 'alert-info') }}">{{ session('deleted') }}</p>
+                @endif
+            </div>
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title mb-4 d-inline">Admins</h5>
@@ -18,15 +28,22 @@
                                 <th scope="col">#</th>
                                 <th scope="col">name</th>
                                 <th scope="col">email</th>
+                                <th scope="col">delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($allAdmins as $admin)
+                            @foreach ($admins as $admin)
                                 <tr>
                                     <th scope="row">{{ $admin->id }}</th>
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->email }}</td>
-
+                                    <td>
+                                        <form action="{{ route('delete.admin', $admin) }}" method="POST" onsubmit="return confirmDelete();">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger text-center">Delete</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -35,4 +52,10 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this record?');
+        }
+    </script>
 @endsection

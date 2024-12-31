@@ -10,7 +10,7 @@
                         @csrf
                         <!-- Email input -->
                         <div class="form-outline mb-4 mt-4">
-                            <input type="email" name="email" id="form2Example1" class="form-control"
+                            <input value="{{ old('email') }}" type="email" name="email" id="form2Example1" class="form-control"
                                 placeholder="email" />
                             @if ($errors->has('email'))
                                 <span class="error" style="color:red">{{ $errors->first('email') }}</span>
@@ -19,14 +19,14 @@
                         </div>
 
                         <div class="form-outline mb-4">
-                            <input type="text" name="name" id="form2Example1" class="form-control"
+                            <input value="{{ old('name') }}" type="text" name="name" id="form2Example1" class="form-control"
                                 placeholder="name" />
                             @if ($errors->has('name'))
                                 <span class="error" style="color:red">{{ $errors->first('name') }}</span>
                             @endif
                         </div>
                         <div class="form-outline mb-4">
-                            <input type="password" name="password" id="form2Example1" class="form-control"
+                            <input value="{{ old('password') }}" type="password" name="password" id="form2Example1" class="form-control"
                                 placeholder="password" />
                             @if ($errors->has('password'))
                                 <span class="error" style="color:red">{{ $errors->first('password') }}</span>

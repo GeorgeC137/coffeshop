@@ -50,6 +50,8 @@
                             @else
                                 <button style="background-color: black" class="text-white btn btn-warning py-3 px-5" disabled>Added to Cart</button>
                             @endif
+                        @else
+                            <p style="background-color: red" class="text-white font-bold">Please login to complete your order</p>
                         @endif
 
                     </form>

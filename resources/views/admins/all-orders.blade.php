@@ -48,7 +48,11 @@
                                     <td>{{ $order->status }}</td>
                                     <td><a href="{{ route('edit.order', $order) }}" class="btn btn-warning text-white text-center ">change status</a></td>
                                     <td>
-                                        <a href="{{ route('delete.order', $order) }}" class="btn btn-danger  text-center ">delete</a>
+                                        <form action="{{ route('delete.order', $order) }}" method="POST" onsubmit="return confirmDelete();">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger text-center">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -58,4 +62,10 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this record?');
+        }
+    </script>
 @endsection

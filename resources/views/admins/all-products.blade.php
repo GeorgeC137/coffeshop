@@ -37,7 +37,13 @@
                                     <td><img src="{{ asset('assets/images/'.$product->image.'') }}" width="70" height="70" alt="{{ $product->name }}"></td>
                                     <td>${{ $product->price }}</td>
                                     <td>{{ $product->type }}</td>
-                                    <td><a href="{{ route('delete.product', $product) }}" class="btn btn-danger  text-center ">delete</a></td>
+                                    <td>
+                                        <form action="{{ route('delete.product', $product) }}" method="POST" onsubmit="return confirmDelete();">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger text-center">Delete</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -46,4 +52,10 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this record?');
+        }
+    </script>
 @endsection

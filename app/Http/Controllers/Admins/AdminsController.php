@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 
+use function Laravel\Prompts\confirm;
+
 class AdminsController extends Controller
 {
     public function loginPage()
@@ -54,9 +56,9 @@ class AdminsController extends Controller
 
     public function displayAdmins()
     {
-        $allAdmins = Admin::select()->orderBy('id', 'desc')->get();
+        $admins = Admin::select()->orderBy('id', 'desc')->get();
 
-        return view('admins.all-admins', compact('allAdmins'));
+        return view('admins.all-admins', compact('admins'));
     }
 
     public function createAdmin()
@@ -81,6 +83,19 @@ class AdminsController extends Controller
         if ($admin) {
             return Redirect::route('all.admins')->with('success', 'Admin created successfully');
         }
+    }
+
+    public function deleteAdmin($id)
+    {
+        $admin = Admin::find($id);
+
+        if(!$admin) {
+            return Redirect::route('all.admins')->with('error', 'Admin not found');
+        }
+
+        $admin->delete();
+
+        return Redirect::route('all.admins')->with('deleted', 'Admin deleted successfully');
     }
 
     public function displayOrders()
@@ -111,11 +126,13 @@ class AdminsController extends Controller
     {
         $order = Order::find($id);
 
+        if (!$order) {
+            return Redirect::route('all.orders')->with('error', 'Order not found');
+        }
+
         $order->delete();
 
-        if ($order) {
-            return Redirect::route('all.orders')->with('deleted', 'Order deleted successfully');
-        }
+        return Redirect::route('all.orders')->with('deleted', 'Order deleted successfully');
     }
 
     public function displayProducts()
@@ -166,10 +183,50 @@ class AdminsController extends Controller
             //dd('File does not exists.');
         }
 
+        if (!$product) {
+            return Redirect::route('all.products')->with('error', 'Product not found');
+        }
+
         $product->delete();
 
-        if ($product) {
-            return Redirect::route('all.products')->with('deleted', 'Product deleted successfully');
+        return Redirect::route('all.products')->with('deleted', 'Product deleted successfully');
+    }
+
+    public function displayBookings()
+    {
+        $bookings = Booking::select()->orderBy('id', 'desc')->get();
+
+        return view('admins.all-bookings', compact('bookings'));
+    }
+
+    public function displayBooking($id)
+    {
+        $booking = Booking::find($id);
+
+        return view('admins.edit-booking', compact('booking'));
+    }
+
+    public function updateBooking(Request $request, $id)
+    {
+        $booking = Booking::find($id);
+
+        $booking->update($request->all());
+
+        if ($booking) {
+            return Redirect::route('all.bookings')->with('updated', 'Booking updated successfully');
         }
+    }
+
+    public function deleteBooking($id)
+    {
+        $booking = Booking::find($id);
+
+        if (!$booking) {
+            return Redirect::route('all.bookings')->with('error', 'Booking not found');
+        }
+
+        $booking->delete();
+
+        return Redirect::route('all.bookings')->with('deleted', 'Booking deleted successfully');
     }
 }

@@ -10,7 +10,7 @@
                         @csrf
                         <!-- Email input -->
                         <div class="form-outline mb-4 mt-4">
-                            <input type="text" name="name" id="form2Example1" class="form-control"
+                            <input value="{{ old('name') }}" type="text" name="name" id="form2Example1" class="form-control"
                                 placeholder="name" />
                             @if ($errors->has('name'))
                                 <span class="error" style="color:red">{{ $errors->first('name') }}</span>
@@ -18,7 +18,7 @@
 
                         </div>
                         <div class="form-outline mb-4 mt-4">
-                            <input type="text" name="price" id="form2Example1" class="form-control"
+                            <input value="{{ old('price') }}" type="text" name="price" id="form2Example1" class="form-control"
                                 placeholder="price" />
                             @if ($errors->has('price'))
                                 <span class="error" style="color:red">{{ $errors->first('price') }}</span>
@@ -26,7 +26,7 @@
 
                         </div>
                         <div class="form-outline mb-4 mt-4">
-                            <input type="file" name="image" id="form2Example1" class="form-control" />
+                            <input value="{{ old('image') }}" type="file" name="image" id="form2Example1" class="form-control" />
                             @if ($errors->has('image'))
                                 <span class="error" style="color:red">{{ $errors->first('image') }}</span>
                             @endif
@@ -34,7 +34,9 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1">Description</label>
-                            <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3">
+                                {{ old('description') }}
+                            </textarea>
                             @if ($errors->has('description'))
                                 <span class="error" style="color:red">{{ $errors->first('description') }}</span>
                             @endif
