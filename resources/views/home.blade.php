@@ -103,7 +103,7 @@
 
                 <div class="book p-4">
                     <h3>Book a Table</h3>
-                    <form method="POST" action="{{ route('bookings') }}" class="appointment-form">
+                    <form method="POST" action="{{ route('booking.table') }}" class="appointment-form">
                         @csrf
                         <div class="d-md-flex">
                             <div class="form-group">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Product;
 
+use Carbon\Carbon;
 use App\Models\Product\Cart;
 use Illuminate\Http\Request;
 use App\Models\Product\Order;
@@ -127,12 +128,17 @@ class ProductController extends Controller
             'last_name' => 'required|max:50',
             'message' => 'required',
             'time' => 'required',
-            'date' => 'required',
+            'date' => 'required|date',
             'user_id' => 'required',
             'phone' => 'required',
         ]);
 
-        if ($request->date > date('n/j/Y')) {
+        // Convert the input date to Carbon object for easy comparison
+        $inputDate = Carbon::createFromFormat('n/j/Y', $request->date);
+
+        // dd($inputDate);
+
+        if ($inputDate->isFuture()) {
             $bookTable = Booking::create($request->all());
 
             if ($bookTable) {
@@ -141,6 +147,18 @@ class ProductController extends Controller
         } else {
             return Redirect::route('home')->with('date', 'Invalid date, please choose a future date');
         }
+
+        // dd($request->date);
+
+        // if ($request->date > date('n/j/Y')) {
+        //     $bookTable = Booking::create($request->all());
+
+        //     if ($bookTable) {
+        //         return Redirect::route('home')->with('booking', 'You have booked a table successfully');
+        //     }
+        // } else {
+        //     return Redirect::route('home')->with('date', 'Invalid date, please choose a future date');
+        // }
     }
 
     public function menu ()

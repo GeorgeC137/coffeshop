@@ -36,7 +36,7 @@ Route::group(['prefix' => 'products'], function() {
     Route::get('/success', [ProductController::class, 'success'])->name('products.pay.success')->middleware('check.for.price');
 
     // bookings
-    Route::post('/bookings', [ProductController::class, 'bookTable'])->name('bookings');
+    Route::post('/bookings', [ProductController::class, 'bookTable'])->name('booking.table')->middleware('auth:web');
 
     // menu
     Route::get('/menu', [ProductController::class, 'menu'])->name('products.menu');
